@@ -1,3 +1,4 @@
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <%--
   Created by IntelliJ IDEA.
   User: bpolak28
@@ -27,7 +28,14 @@
     </style>
 </head>
 <body>
-<h2>Grasz jako ${player}</h2>
+<h2>
+    <c:if test = "${sessionScope.name==sessionScope.gameName}">
+    <p>${sessionScope.name}, grasz jako gospodarz.<p>
+    </c:if>
+        <c:if test = "${sessionScope.name!=sessionScope.gameName}">
+        <p>${sessionScope.name}, grasz jako gość.<p>
+        </c:if>
+</h2>
 <br>
 <form method="POST">
 <table style="text-align: center; border: solid 1px black;">

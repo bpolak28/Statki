@@ -1,6 +1,8 @@
 package pl.mojeprojekty.statki.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import pl.mojeprojekty.statki.dto.Game;
 import pl.mojeprojekty.statki.dto.Player;

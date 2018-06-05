@@ -1,18 +1,14 @@
 package pl.mojeprojekty.statki.controllery;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import pl.mojeprojekty.statki.dto.Field;
 import pl.mojeprojekty.statki.dto.Player;
-import pl.mojeprojekty.statki.form.FieldsForm;
 import pl.mojeprojekty.statki.service.GameService;
-import pl.mojeprojekty.statki.service.MyPlayer;
 import pl.mojeprojekty.statki.service.PlayerService;
 
 @RestController
-@SessionAttributes({"name","createdGame"})
+@SessionAttributes("name")
 public class StartController {
 
     @Autowired
@@ -20,9 +16,6 @@ public class StartController {
 
     @Autowired
     private GameService gameService;
-
-    @Autowired
-    private MyPlayer myPlayer;
 
     @RequestMapping(value = "/statki",method = RequestMethod.GET)
     public String hello(ModelMap modelMap){
@@ -32,9 +25,8 @@ public class StartController {
 
     @RequestMapping(value = "statki", method = RequestMethod.POST)
     public String sendName(String name, ModelMap modelMap){
-        modelMap.addAttribute("name",name);
         Player player = playerService.createPlayer(name);
-        myPlayer.setMe(player);
+        modelMap.addAttribute("name",player.getName());
         return "redirect:gameslist";
     }
 
