@@ -3,9 +3,10 @@ package pl.mojeprojekty.statki.controllery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import pl.mojeprojekty.statki.form.FieldsForm;
 import pl.mojeprojekty.statki.service.GameService;
 import pl.mojeprojekty.statki.service.PlayerService;
+
+import java.util.Map;
 
 @RestController
 @SessionAttributes({"name","gameName"})
@@ -24,9 +25,9 @@ public class GameController {
     }
 
     @RequestMapping(value = "game/{pathGameName}",method = RequestMethod.POST)
-    public String sendForm(ModelMap modelMap,@ModelAttribute("name") String name){
+    public String sendForm(ModelMap modelMap, @RequestParam("a1") String a1){
         System.out.println(modelMap.get("gameName"));
-        System.out.println(name);
+        System.out.println(a1);
         return "game";
     }
 }

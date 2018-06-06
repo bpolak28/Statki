@@ -14,17 +14,27 @@
         td {
             text-align: center;
             border: solid 1px black;
-            width: 20px;
         }
-        .buttons {
-            background-color: blanchedalmond;
-            width: 100%;
-            border: none;
+        .checkfield:checked{
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: red;
+            width: 20px;
+            height: 20px;
+            margin: 0;
+            padding: 0;
+        }
+        .checkfield{
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: green;
+            width: 20px;
+            height: 20px;
+            margin: 0;
+            padding: 0;
+
         }
 
-        .buttons:active {
-            background-color: red;
-        }
     </style>
 </head>
 <body>
@@ -43,7 +53,7 @@
         <td>X</td><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td><td>F</td><td>G</td><td>H</td><td>I</td><td>J</td>
     </tr>
     <tr>
-        <td>1</td><td><input type="button" name="a1" class="buttons"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+        <td>1</td><td><input type="checkbox" name="a1" class="checkfield"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
     <tr>
         <td>2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
