@@ -8,7 +8,7 @@ import pl.mojeprojekty.statki.service.GameService;
 import pl.mojeprojekty.statki.service.PlayerService;
 
 @RestController
-@SessionAttributes("gameName")
+@SessionAttributes({"name","gameName"})
 public class GameController {
 
     @Autowired
@@ -20,13 +20,13 @@ public class GameController {
     @RequestMapping(value = "game/{gameName}")
     public String enterGame(ModelMap modelMap,@PathVariable("gameName") String gameName){
         modelMap.addAttribute("gameName",gameName);
-        System.out.println();
         return "game";
     }
 
-    @RequestMapping(value = "game/{name}",method = RequestMethod.POST)
-    public String sendForm(ModelMap modelMap){
-        System.out.println("dupa");
+    @RequestMapping(value = "game/{pathGameName}",method = RequestMethod.POST)
+    public String sendForm(ModelMap modelMap,@ModelAttribute("name") String name){
+        System.out.println(modelMap.get("gameName"));
+        System.out.println(name);
         return "game";
     }
 }
