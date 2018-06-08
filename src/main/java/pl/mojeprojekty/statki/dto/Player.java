@@ -9,11 +9,8 @@ public class Player {
 
     private boolean createdGame = false;
 
-    private List<Field> ships = new ArrayList<>();
-
     public Player(String name) {
         this.name = name;
-        createShips();
     }
 
     public Player(){
@@ -34,30 +31,6 @@ public class Player {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-
-    private void createShips(){
-        ships.add(new Field("oneFieldShip"));
-        ships.add(new Field("oneFieldShip"));
-        ships.add(new Field("oneFieldShip"));
-        ships.add(new Field("oneFieldShip"));
-        ships.add(new Field("twoFieldShip"));
-        ships.add(new Field("twoFieldShip"));
-        ships.add(new Field("twoFieldShip"));
-        ships.add(new Field("twoFieldShip"));
-        ships.add(new Field("twoFieldShip"));
-        ships.add(new Field("twoFieldShip"));
-        ships.add(new Field("threeFieldShip"));
-        ships.add(new Field("threeFieldShip"));
-        ships.add(new Field("threeFieldShip"));
-        ships.add(new Field("threeFieldShip"));
-        ships.add(new Field("threeFieldShip"));
-        ships.add(new Field("threeFieldShip"));
-        ships.add(new Field("fourFieldShip"));
-        ships.add(new Field("fourFieldShip"));
-        ships.add(new Field("fourFieldShip"));
-        ships.add(new Field("fourFieldShip"));
     }
 
     @Override
