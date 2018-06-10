@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Game {
 
+    private String gameHostName;
+
     private Player host;
 
     private List<Field> hostShips = new ArrayList<>();
@@ -22,6 +24,14 @@ public class Game {
         this.hostShips = hostShips;
         this.guest = guest;
         this.guestShips = guestShips;
+    }
+
+    public String getGameHostName() {
+        return gameHostName;
+    }
+
+    public void setGameHostName(String gameHostName) {
+        this.gameHostName = gameHostName;
     }
 
     public List<Field> getHostShips() {

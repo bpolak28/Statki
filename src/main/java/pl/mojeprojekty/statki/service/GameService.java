@@ -37,7 +37,9 @@ public class GameService {
     public void addGameByPlayerName(String name){
         Player playerByName = playerService.getPlayerByName(name);
         if(!playerByName.isCreatedGame()){
-            addGame(new Game(playerByName));
+            Game newGame = new Game(playerByName);
+            newGame.setGameHostName(name);
+            addGame(newGame);
             playerByName.setCreatedGame(true);
         }
     }
@@ -53,5 +55,9 @@ public class GameService {
         } else {
             return null;
         }
+    }
+
+    public Game getGameByHostName(String name){
+        return games.stream().filter( g -> g.getGameHostName().equals(name)).findFirst().orElseGet(null);
     }
 }
