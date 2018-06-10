@@ -1,16 +1,17 @@
 package pl.mojeprojekty.statki.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
 
     private Player host;
 
-    private List<Field> hostShips;
+    private List<Field> hostShips = new ArrayList<>();
 
     private Player guest;
 
-    private List<Field> guestShips;
+    private List<Field> guestShips = new ArrayList<>();
 
     public Game(){
 
@@ -42,6 +43,8 @@ public class Game {
 
     public Game(Player host) {
         this.host = host;
+        setHostShips(hostShips);
+        setGuestShips(guestShips);
     }
 
     public Player getHost() {

@@ -1,16 +1,27 @@
 package pl.mojeprojekty.statki.form;
 
+import org.springframework.stereotype.Component;
+import pl.mojeprojekty.statki.dto.Field;
+
+import java.util.List;
+
 public class FieldsForm {
-    private boolean a1;
+
+    private String[] positions;
+
 
     public FieldsForm() {
     }
 
-    public boolean isA1() {
-        return a1;
+    public FieldsForm(String[] positions) {
+        this.positions = positions;
     }
 
-    public void setA1(boolean a1) {
-        this.a1 = a1;
+    public String[] getPositions() {
+        return positions;
+    }
+
+    public void setPositions(String[] positions) {
+        this.positions = positions;
     }
 }
