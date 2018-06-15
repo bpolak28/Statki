@@ -3,14 +3,10 @@ package pl.mojeprojekty.statki.controllery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import pl.mojeprojekty.statki.dto.Field;
 import pl.mojeprojekty.statki.dto.Game;
 import pl.mojeprojekty.statki.form.FieldsForm;
 import pl.mojeprojekty.statki.service.GameService;
 import pl.mojeprojekty.statki.service.PlayerService;
-
-import java.util.ArrayList;
-import java.util.Map;
 
 @RestController
 @SessionAttributes({"name","gameName"})
@@ -39,7 +35,7 @@ public class GameController {
         return "game";
     }
 
-    @RequestMapping(value = "game/{pathGameName}",method = RequestMethod.POST)
+    @RequestMapping(value = "game/{gameName}",method = RequestMethod.POST)
     public String sendForm(ModelMap modelMap,@ModelAttribute("fieldsForm") FieldsForm fieldsForm){
         String[] positions = fieldsForm.getPositions();
         if(positions.length>20){
@@ -49,9 +45,10 @@ public class GameController {
             modelMap.addAttribute("wrongNumberOfChecks","Zaznaczono zbyt mało pól");
             return "game";
         }
-        for (String pos:positions){
-            System.out.println(pos);
-        }
+//        for (String pos:positions){
+//            System.out.println(pos);
+//        }
+        gameService.checkShipsLocations(positions);
         return "game";
     }
 }

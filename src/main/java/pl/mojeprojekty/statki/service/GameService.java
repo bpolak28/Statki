@@ -60,4 +60,57 @@ public class GameService {
     public Game getGameByHostName(String name){
         return games.stream().filter( g -> g.getGameHostName().equals(name)).findFirst().orElseGet(null);
     }
+
+    public boolean checkShipsLocations(String[] positions) {
+        int numberOfOneFieldShip;
+        int numberOfTwoFieldShip;
+        int numberOfThreeFieldShip;
+        int numberOfFourFieldShip;
+        char[] columns = new char[20];
+        int[] rows = new int[20];
+        int iter=0;
+        for (String position:positions){
+            char column = position.charAt(0);
+            String substring = position.substring(1);
+            int row = Integer.valueOf(substring);
+            System.out.println(column+","+row);
+            columns[iter]=column;
+            rows[iter]=row;
+            iter++;
+        }
+        boolean result = checkOneFieldShips(columns, rows);
+
+        return true;
+    }
+
+    public boolean checkOneFieldShips(char[] colomns,int[] rows){
+
+        int numberOfOneFieldShips=0;
+
+        for(int i=0;i<20;i++){
+            char checkCol = colomns[i];
+            int checkRow = rows[i];
+            boolean result=false;
+            for(int j=0;j<20;j++){
+                if(i==j){
+                    continue;
+                }
+                if((checkCol==colomns[j]||checkCol==colomns[j]-1||checkCol==colomns[j]+1)
+                    &&(checkRow==rows[j]||checkRow==rows[j]-1||checkRow==rows[j]+1)){
+                    result=false;
+                    break;
+                } else {
+                    result=true;
+                }
+            }
+            if(result) {
+                numberOfOneFieldShips++;
+            }
+        }
+        if(numberOfOneFieldShips==4){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

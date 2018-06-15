@@ -4,6 +4,8 @@ public class Field {
 
     private String type;
 
+    private String location;
+
     private boolean hit = false;
 
     public Field(String type) {
