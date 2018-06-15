@@ -1,10 +1,5 @@
 package pl.mojeprojekty.statki.form;
 
-import org.springframework.stereotype.Component;
-import pl.mojeprojekty.statki.dto.Field;
-
-import java.util.List;
-
 public class FieldsForm {
 
     private String[] positions;

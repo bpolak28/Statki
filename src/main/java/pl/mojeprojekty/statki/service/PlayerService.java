@@ -1,8 +1,7 @@
 package pl.mojeprojekty.statki.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.mojeprojekty.statki.dto.Player;
+import pl.mojeprojekty.statki.model.Player;
 
 import java.util.ArrayList;
 import java.util.List;

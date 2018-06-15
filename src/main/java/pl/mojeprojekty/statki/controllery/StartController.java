@@ -3,7 +3,7 @@ package pl.mojeprojekty.statki.controllery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import pl.mojeprojekty.statki.dto.Player;
+import pl.mojeprojekty.statki.model.Player;
 import pl.mojeprojekty.statki.service.GameService;
 import pl.mojeprojekty.statki.service.PlayerService;
 

@@ -1,11 +1,9 @@
 package pl.mojeprojekty.statki.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
-import pl.mojeprojekty.statki.dto.Game;
-import pl.mojeprojekty.statki.dto.Player;
+import pl.mojeprojekty.statki.model.Game;
+import pl.mojeprojekty.statki.model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +81,7 @@ public class GameService {
         return true;
     }
 
-    public boolean checkOneFieldShips(char[] colomns,int[] rows){
+    private boolean checkOneFieldShips(char[] colomns,int[] rows){
 
         int numberOfOneFieldShips=0;
 
@@ -97,6 +95,37 @@ public class GameService {
                 }
                 if((checkCol==colomns[j]||checkCol==colomns[j]-1||checkCol==colomns[j]+1)
                     &&(checkRow==rows[j]||checkRow==rows[j]-1||checkRow==rows[j]+1)){
+                    result=false;
+                    break;
+                } else {
+                    result=true;
+                }
+            }
+            if(result) {
+                numberOfOneFieldShips++;
+            }
+        }
+        if(numberOfOneFieldShips==4){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean checkTwoFieldShips(char[] colomns,int[] rows){
+
+        int numberOfOneFieldShips=0;
+
+        for(int i=0;i<20;i++){
+            char checkCol = colomns[i];
+            int checkRow = rows[i];
+            boolean result=false;
+            for(int j=0;j<20;j++){
+                if(i==j){
+                    continue;
+                }
+                if((checkCol==colomns[j]||checkCol==colomns[j]-1||checkCol==colomns[j]+1)
+                        &&(checkRow==rows[j]||checkRow==rows[j]-1||checkRow==rows[j]+1)){
                     result=false;
                     break;
                 } else {
