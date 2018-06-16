@@ -77,26 +77,28 @@ public class GameService {
             iter++;
         }
         boolean result = checkOneFieldShips(columns, rows);
-        boolean result2 = checkTwoFieldShips(columns,rows);
+        boolean result2 = checkTwoFieldsShips(columns,rows);
+        boolean result3 = checkThreeFieldsShips(columns,rows);
         System.out.println(result);
         System.out.println(result2);
+        System.out.println(result3);
 
         return true;
     }
 
-    private boolean checkOneFieldShips(char[] colomns,int[] rows){
+    private boolean checkOneFieldShips(char[] columns,int[] rows){
 
         int numberOfOneFieldShips=0;
 
         for(int i=0;i<20;i++){
-            char checkCol = colomns[i];
+            char checkCol = columns[i];
             int checkRow = rows[i];
             boolean result=false;
             for(int j=0;j<20;j++){
                 if(i==j){
                     continue;
                 }
-                if((checkCol==colomns[j]||checkCol==colomns[j]-1||checkCol==colomns[j]+1)
+                if((checkCol==columns[j]||checkCol==columns[j]-1||checkCol==columns[j]+1)
                     &&(checkRow==rows[j]||checkRow==rows[j]-1||checkRow==rows[j]+1)){
                     result=false;
                     break;
@@ -108,6 +110,7 @@ public class GameService {
                 numberOfOneFieldShips++;
             }
         }
+        System.out.println(numberOfOneFieldShips);
         if(numberOfOneFieldShips==4){
             return true;
         } else {
@@ -115,7 +118,7 @@ public class GameService {
         }
     }
 
-    private boolean checkTwoFieldShips(char[] colomns,int[] rows){
+    private boolean checkTwoFieldsShips(char[] columns, int[] rows){
 
         int numberOfTwoFieldShips=0;
 
@@ -131,27 +134,27 @@ public class GameService {
             if(fieldAlreadyChecked){
                 continue;
             }
-            char checkCol = colomns[i];
+            char checkCol = columns[i];
             int checkRow = rows[i];
             boolean result=false;
             for(int j=0;j<20;j++){
                 if(i==j){
                     continue;
                 }
-                if(((checkCol==colomns[j]-1||checkCol==colomns[j]+1)&&checkRow==rows[j])||
-                        ((checkRow==rows[j]-1||checkRow==rows[j]+1)&&checkCol==colomns[j])){
-                    char newCheckCol = colomns[j];
+                if(((checkCol==columns[j]-1||checkCol==columns[j]+1)&&checkRow==rows[j])||
+                        ((checkRow==rows[j]-1||checkRow==rows[j]+1)&&checkCol==columns[j])){
+                    char newCheckCol = columns[j];
                     int newCheckRow = rows[j];
 
                     for(int k=0;k<20;k++){
                         if(k==i||k==j){
                             continue;
                         }
-                        if((checkCol==colomns[k]||checkCol==colomns[k]-1||checkCol==colomns[k]+1)
+                        if((checkCol==columns[k]||checkCol==columns[k]-1||checkCol==columns[k]+1)
                                 &&(checkRow==rows[k]||checkRow==rows[k]-1||checkRow==rows[k]+1)){
                             result = false;
                             break;
-                        } else if((newCheckCol==colomns[k]||newCheckCol==colomns[k]-1||newCheckCol==colomns[k]+1)
+                        } else if((newCheckCol==columns[k]||newCheckCol==columns[k]-1||newCheckCol==columns[k]+1)
                                 &&(newCheckRow==rows[k]||newCheckRow==rows[k]-1||newCheckRow==rows[k]+1)){
                             result = false;
                             break;
@@ -176,6 +179,64 @@ public class GameService {
         }
     }
 
+    private boolean checkThreeFieldsShips(char[] columns,int[] rows){
+        int numberOfThreeFieldsShips=0;
+        for(int i=0;i<20;i++){
+            char baseCol = columns[i];
+            int baseRow = rows[i];
+            int indexOfFirstFoundField=100;
+            int indexOfSecondFoundField=100;
+            boolean result = false;
+            for(int j=0;j<20;j++){
+                if(j==i){
+                    continue;
+                }
+                if(((baseCol==columns[j]-1||baseCol==columns[j]+1)&&baseRow==rows[j])||
+                        ((baseRow==rows[j]-1||baseRow==rows[j]+1)&&baseCol==columns[j])){
+                    if(indexOfFirstFoundField==100){
+                        indexOfFirstFoundField=j;
+                    } else if(indexOfSecondFoundField==100) {
+                        indexOfSecondFoundField=j;
+                    } else {
+                        indexOfFirstFoundField=100;
+                        indexOfSecondFoundField=100;
+                        break;
+                    }
+                }
+            }
+            if(indexOfFirstFoundField!=100&&indexOfSecondFoundField!=100){
+                for(int k=0;k<20;k++){
+                    if(k==i||k==indexOfFirstFoundField||k==indexOfSecondFoundField){
+                        continue;
+                    }
+                    if((baseCol==columns[k]||baseCol==columns[k]-1||baseCol==columns[k]+1)
+                            &&(baseRow==rows[k]||baseRow==rows[k]-1||baseRow==rows[k]+1)){
+                        result = false;
+                        break;
+                    } else if((columns[indexOfFirstFoundField]==columns[k]||columns[indexOfFirstFoundField]==columns[k]-1||columns[indexOfFirstFoundField]==columns[k]+1)
+                            &&(rows[indexOfFirstFoundField]==rows[k]||rows[indexOfFirstFoundField]==rows[k]-1||rows[indexOfFirstFoundField]==rows[k]+1)){
+                        result = false;
+                        break;
+                    } else if((columns[indexOfSecondFoundField]==columns[k]||columns[indexOfSecondFoundField]==columns[k]-1||columns[indexOfSecondFoundField]==columns[k]+1)
+                            &&(rows[indexOfSecondFoundField]==rows[k]||rows[indexOfSecondFoundField]==rows[k]-1||rows[indexOfSecondFoundField]==rows[k]+1)){
+                        result = false;
+                        break;
+                    } else {
+                        result = true;
+                    }
+                }
+            }
+            if(result){
+                numberOfThreeFieldsShips++;
+            }
+        }
+        System.out.println(numberOfThreeFieldsShips);
+        if(numberOfThreeFieldsShips==2){
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
 }

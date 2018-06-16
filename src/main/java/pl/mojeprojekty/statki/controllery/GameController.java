@@ -38,9 +38,9 @@ public class GameController {
     @RequestMapping(value = "game/{gameName}",method = RequestMethod.POST)
     public String sendForm(ModelMap modelMap,@ModelAttribute("fieldsForm") FieldsForm fieldsForm){
         String[] positions = fieldsForm.getPositions();
-        if(positions.length>2){
+        if(positions.length>20){
             modelMap.addAttribute("wrongNumberOfChecks","Zaznaczono zbyt wiele pól");
-        } else if (positions.length<2){
+        } else if (positions.length<20){
             modelMap.addAttribute("wrongNumberOfChecks","Zaznaczono zbyt mało pól");
         }
 //        for (String pos:positions){
