@@ -42,11 +42,12 @@ public class GameController {
             modelMap.addAttribute("wrongNumberOfChecks","Zaznaczono zbyt wiele pól");
         } else if (positions.length<20){
             modelMap.addAttribute("wrongNumberOfChecks","Zaznaczono zbyt mało pól");
+        } else {
+            if(gameService.checkShipsLocations(positions)){
+
+            }
         }
-//        for (String pos:positions){
-//            System.out.println(pos);
-//        }
-        gameService.checkShipsLocations(positions);
+
         return "game";
     }
 }
