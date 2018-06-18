@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import pl.mojeprojekty.statki.model.Game;
 import pl.mojeprojekty.statki.model.Player;
 
-import javax.swing.text.html.HTMLDocument;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,39 +59,109 @@ public class GameService {
         return games.stream().filter( g -> g.getGameHostName().equals(name)).findFirst().orElseGet(null);
     }
 
-    public boolean checkShipsLocations(String[] positions) {
-        char[] columns = new char[20];
-        int[] rows = new int[20];
-        int iter=0;
-        for (String position:positions){
-            char column = position.charAt(0);
-            String substring = position.substring(1);
-            int row = Integer.valueOf(substring);
-            System.out.println(column+","+row);
-            columns[iter]=column;
-            rows[iter]=row;
-            iter++;
+    public void setShipsLocationForHost(String[] positons, Game game){
+        List<Integer> oneFieldShips = getOneFieldShips(positons);
+        List<Integer> twoFieldsShips = getTwoFieldsShips(positons);
+        List<Integer> threeFieldsShips = getThreeFieldsShips(positons);
+        List<Integer> fourFieldsShip = getFourFieldsShip(positons);
+        for(Integer oneShip:oneFieldShips){
+            game.getHostShips().stream()
+                    .filter(field -> field.getType().equals("oneFieldShip") && field.getLocation() == null)
+                    .findFirst().ifPresent(field -> field.setLocation(positons[oneShip]));
         }
-        boolean result = checkOneFieldShips(columns, rows);
-        boolean result2 = checkTwoFieldsShips(columns,rows);
-        boolean result3 = checkThreeFieldsShips(columns,rows);
-        boolean result4 = checkFourFieldsShip(columns,rows);
+        for(Integer twoShip:twoFieldsShips){
+            game.getHostShips().stream()
+                    .filter(field -> field.getType().equals("twoFieldShip") && field.getLocation() == null)
+                    .findFirst().ifPresent(field -> field.setLocation(positons[twoShip]));
+        }
+        for(Integer threeShip:threeFieldsShips){
+            game.getHostShips().stream()
+                    .filter(field -> field.getType().equals("threeFieldShip") && field.getLocation() == null)
+                    .findFirst().ifPresent(field -> field.setLocation(positons[threeShip]));
+        }
+        for(Integer fourShip:fourFieldsShip){
+            game.getHostShips().stream()
+                    .filter(field -> field.getType().equals("fourFieldShip") && field.getLocation() == null)
+                    .findFirst().ifPresent(field -> field.setLocation(positons[fourShip]));
+        }
+
+        game.getHostShips().forEach(System.out::println);
+    }
+
+    public void setShipsLocationForGuest(String[] positons, Game game){
+        List<Integer> oneFieldShips = getOneFieldShips(positons);
+        List<Integer> twoFieldsShips = getTwoFieldsShips(positons);
+        List<Integer> threeFieldsShips = getThreeFieldsShips(positons);
+        List<Integer> fourFieldsShip = getFourFieldsShip(positons);
+        for(Integer oneShip:oneFieldShips){
+            game.getGuestShips().stream()
+                    .filter(field -> field.getType().equals("oneFieldShip") && field.getLocation() == null)
+                    .findFirst().ifPresent(field -> field.setLocation(positons[oneShip]));
+        }
+        for(Integer twoShip:twoFieldsShips){
+            game.getGuestShips().stream()
+                    .filter(field -> field.getType().equals("twoFieldShip") && field.getLocation() == null)
+                    .findFirst().ifPresent(field -> field.setLocation(positons[twoShip]));
+        }
+        for(Integer threeShip:threeFieldsShips){
+            game.getGuestShips().stream()
+                    .filter(field -> field.getType().equals("threeFieldShip") && field.getLocation() == null)
+                    .findFirst().ifPresent(field -> field.setLocation(positons[threeShip]));
+        }
+        for(Integer fourShip:fourFieldsShip){
+            game.getGuestShips().stream()
+                    .filter(field -> field.getType().equals("fourFieldShip") && field.getLocation() == null)
+                    .findFirst().ifPresent(field -> field.setLocation(positons[fourShip]));
+        }
+
+        game.getGuestShips().forEach(System.out::println);
+    }
+
+    public char[] getColumns(String[] positions){
+        char[] columns = new char[20];
+        int i = 0;
+        for(String position:positions){
+            columns[i] = position.charAt(0);
+            i++;
+        }
+        return columns;
+    }
+
+    public int[] getRows(String[] positions){
+        int[] rows = new int[20];
+        int i = 0;
+        for(String position:positions){
+            String substring = position.substring(1);
+            rows[i] = Integer.valueOf(substring);
+            i++;
+        }
+        return rows;
+    }
+
+    public boolean checkShipsLocations(String[] positions) {
+
+        List<Integer> result = getOneFieldShips(positions);
+        List<Integer> result2 = getTwoFieldsShips(positions);
+        List<Integer> result3 = getThreeFieldsShips(positions);
+        List<Integer> result4 = getFourFieldsShip(positions);
         System.out.println(result);
         System.out.println(result2);
         System.out.println(result3);
         System.out.println(result4);
 
-//        if(result&&result2&&result3&&result4){
-//            return true;
-//        } else {
-//            return false;
-//        }
-        return result&&result2&&result3&&result4;
+        if(result.size()==4&&result2.size()==6&&result3.size()==6&&result4.size()==4){
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    private boolean checkOneFieldShips(char[] columns,int[] rows){
+    public List<Integer> getOneFieldShips(String[] positions){
 
-        int numberOfOneFieldShips=0;
+        char[] columns = getColumns(positions);
+        int[] rows = getRows(positions);
+
+        List<Integer> indexesOfShips = new ArrayList<>();
 
         for(int i=0;i<20;i++){
             char checkCol = columns[i];
@@ -111,28 +180,23 @@ public class GameService {
                 }
             }
             if(result) {
-                numberOfOneFieldShips++;
+                indexesOfShips.add(i);
             }
         }
-        System.out.println(numberOfOneFieldShips);
-//        if(numberOfOneFieldShips==4){
-//            return true;
-//        } else {
-//            return false;
-//        }
-        return numberOfOneFieldShips==4;
+        return indexesOfShips;
     }
 
-    private boolean checkTwoFieldsShips(char[] columns, int[] rows){
+    private List<Integer> getTwoFieldsShips(String[] positions){
 
-        int numberOfTwoFieldShips=0;
+        char[] columns = getColumns(positions);
+        int[] rows = getRows(positions);
 
-        List<Integer> pairs = new ArrayList<>();
+        List<Integer> indexesOfShips = new ArrayList<>();
 
         for(int i=0;i<20;i++){
             boolean fieldAlreadyChecked = false;
-            for(int s:pairs){
-                if(i==s){
+            for(int index:indexesOfShips){
+                if(i==index){
                     fieldAlreadyChecked = true;
                 }
             }
@@ -168,25 +232,21 @@ public class GameService {
                         }
                     }
                     if(result){
-                        pairs.add(j);
-                        numberOfTwoFieldShips++;
+                        indexesOfShips.add(i);
+                        indexesOfShips.add(j);
                     }
 
                 }
 
             }
         }
-        System.out.println(numberOfTwoFieldShips);
-//        if(numberOfTwoFieldShips==3){
-//            return true;
-//        } else {
-//            return false;
-//        }
-        return numberOfTwoFieldShips==3;
+        return indexesOfShips;
     }
 
-    private boolean checkThreeFieldsShips(char[] columns,int[] rows){
-        int numberOfThreeFieldsShips=0;
+    private List<Integer> getThreeFieldsShips(String[] positions){
+        char[] columns = getColumns(positions);
+        int[] rows = getRows(positions);
+        List<Integer> indexesOfShips = new ArrayList<>();
         for(int i=0;i<20;i++){
             char baseCol = columns[i];
             int baseRow = rows[i];
@@ -233,26 +293,21 @@ public class GameService {
                 }
             }
             if(result){
-                numberOfThreeFieldsShips++;
+                indexesOfShips.add(i);
+                indexesOfShips.add(indexOfFirstFoundField);
+                indexesOfShips.add(indexOfSecondFoundField);
             }
         }
-        System.out.println(numberOfThreeFieldsShips);
-//        if(numberOfThreeFieldsShips==2){
-//            return true;
-//        } else {
-//            return false;
-//        }
-        return numberOfThreeFieldsShips==2;
+        return indexesOfShips;
     }
 
-    private boolean checkFourFieldsShip(char[] columns,int[] rows){
+    private List<Integer> getFourFieldsShip(String[] positions){
+        char[] columns = getColumns(positions);
+        int[] rows = getRows(positions);
+        List<Integer> indexesOfFourFieldShip = new ArrayList<>();
         boolean result = false;
         for (int i=0;i<20;i++){
-            List<Integer> indexesOfFourFieldShip = new ArrayList<>();
-            int indexOfFirstFoundField=i;
-            int indexOfSecondFoundField=100;
-            int indexOfThirdFoundField=100;
-            int indexOfFourthFoundField=100;
+
             char baseCol = columns[i];
             int baseRow = rows[i];
             for(int j=0;j<20;j++){
@@ -277,39 +332,58 @@ public class GameService {
                                 }
                                 if(((baseCol==columns[l]-1||baseCol==columns[l]+1)&&baseRow==rows[l])||
                                         ((baseRow==rows[l]-1||baseRow==rows[l]+1)&&baseCol==columns[l])){
-                                    indexOfSecondFoundField=j;
-                                    indexOfThirdFoundField=k;
-                                    indexOfFourthFoundField=l;
-                                    indexesOfFourFieldShip.add(i);
-                                    indexesOfFourFieldShip.add(j);
-                                    indexesOfFourFieldShip.add(k);
-                                    indexesOfFourFieldShip.add(l);
-                                    result=true;
+                                    for(int m=0;m<20;m++){
+                                        if(i==m||j==m||k==m||l==m){
+                                            continue;
+                                        }
+                                        if((columns[i]==columns[m]||columns[i]==columns[m]-1||columns[i]==columns[m]+1)
+                                                    &&(rows[i]==rows[m]||rows[i]==rows[m]-1||rows[i]==rows[m]+1)){
+                                                result = false;
+                                                break;
+                                        }
+                                        if((columns[j]==columns[m]||columns[j]==columns[m]-1||columns[j]==columns[m]+1)
+                                                &&(rows[j]==rows[m]||rows[j]==rows[m]-1||rows[j]==rows[m]+1)){
+                                            result = false;
+                                            break;
+                                        }
+                                        if((columns[k]==columns[m]||columns[k]==columns[m]-1||columns[k]==columns[m]+1)
+                                                &&(rows[k]==rows[m]||rows[k]==rows[m]-1||rows[k]==rows[m]+1)){
+                                            result = false;
+                                            break;
+                                        }
+                                        if((columns[l]==columns[m]||columns[l]==columns[m]-1||columns[l]==columns[m]+1)
+                                                &&(rows[l]==rows[m]||rows[l]==rows[m]-1||rows[l]==rows[m]+1)){
+                                            result = false;
+                                            break;
+                                        } else {
+                                            result = true;
+                                        }
+
+                                    }
+                                    if(result){
+                                        indexesOfFourFieldShip.add(i);
+                                        indexesOfFourFieldShip.add(j);
+                                        indexesOfFourFieldShip.add(k);
+                                        indexesOfFourFieldShip.add(l);
+                                        break;
+                                    }
                                 }
                             }
                         }
+                        if(result){
+                            break;
+                        }
                     }
                 }
-            }
-            for(int j=0;j<20;j++){
-                if(j==indexOfFirstFoundField||j==indexOfSecondFoundField||j==indexOfThirdFoundField||j==indexOfFourthFoundField){
-                    continue;
-                }
-                for(int index:indexesOfFourFieldShip){
-                    if((columns[index]==columns[j]||columns[index]==columns[j]-1||columns[index]==columns[j]+1)
-                            &&(rows[index]==rows[j]||rows[index]==rows[j]-1||rows[index]==rows[j]+1)){
-                        result=false;
-                    }
+                if(result){
+                    break;
                 }
             }
-
+            if(result){
+                break;
+            }
         }
-//        if(result){
-//            return true;
-//        } else {
-//            return false;
-//        }
-        return result;
+        return indexesOfFourFieldShip;
     }
 
 }

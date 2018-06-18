@@ -43,8 +43,15 @@ public class GameController {
         } else if (positions.length<20){
             modelMap.addAttribute("wrongNumberOfChecks","Zaznaczono zbyt mało pól");
         } else {
-            if(gameService.checkShipsLocations(positions)){
-
+            if(gameService.checkShipsLocations(positions)) {
+                if (modelMap.get("name").toString().equals(modelMap.get("gameName").toString())) {
+                    System.out.println("git");
+                    gameService.setShipsLocationForHost(positions,gameService.getGameByHostName(modelMap.get("name").toString()));
+                    return "battle";
+                } else {
+                    gameService.setShipsLocationForGuest(positions,gameService.getGameByHostName(modelMap.get("gameName").toString()));
+                    return "battle";
+                }
             }
         }
 

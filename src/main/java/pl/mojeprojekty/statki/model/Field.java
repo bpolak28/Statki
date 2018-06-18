@@ -16,6 +16,14 @@ public class Field {
 
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public String getType() {
         return type;
     }
@@ -36,6 +44,7 @@ public class Field {
     public String toString() {
         return "Field{" +
                 "type='" + type + '\'' +
+                ", location='" + location + '\'' +
                 ", hit=" + hit +
                 '}';
     }
